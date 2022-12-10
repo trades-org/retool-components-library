@@ -12,6 +12,13 @@ export default {
             default: "white",
         },
     },
+    argTypes: {
+        isDragColumnsEnabled: {
+            control: {
+                type: "boolean",
+            },
+        },
+    }
 } as ComponentMeta<typeof DragAndDrop>
 
 const DragAndDropComponent: ComponentStory<typeof DragAndDrop> = (args) => <DragAndDrop {...args} />
@@ -19,4 +26,21 @@ const DragAndDropComponent: ComponentStory<typeof DragAndDrop> = (args) => <Drag
 export const Default = DragAndDropComponent.bind({})
 Default.args = {
     data: mockData
+}
+
+export const CandidatesWithClick = DragAndDropComponent.bind({})
+CandidatesWithClick.args = {
+    data: mockData,
+    onClickRow: (row) => alert(`You clicked on ${row.content}`),
+    rowClassNames: {
+        rowWrapperClassNames: "bg-gray-100 mb-2",
+    }
+}
+
+export const CandidatesMultiSelect = DragAndDropComponent.bind({})
+CandidatesMultiSelect.args = {
+    data: mockData,
+    rowClassNames: {
+        rowWrapperClassNames: "bg-gray-100 mb-2",
+    }
 }

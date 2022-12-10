@@ -15,7 +15,7 @@ export default defineConfig({
     ],
     build: {
         lib: {
-            entry: resolve(__dirname, 'src/components/index.tsx'),
+            entry: resolve(__dirname, 'src/components/index.ts'),
             name: 'MyLib',
             formats: ['es', 'umd'],
             fileName: (format) => `my-lib.${format}.js`,

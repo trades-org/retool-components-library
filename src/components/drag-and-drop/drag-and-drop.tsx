@@ -2,11 +2,25 @@ import React, { FC, useState } from "react";
 import DragAndDropProps from "./drag-and-drop.types";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import InnerColumnList from "./inner-columns";
+import { twMerge } from "tailwind-merge";
 
-const DragAndDrop: FC<DragAndDropProps> = ({ data }) => {
+const DragAndDrop: FC<DragAndDropProps> = ({
+  data,
+  wrapperClassNames,
+  columnClassNames,
+  rowClassNames,
+  isDragColumnsEnabled,
+  onClickRow,
+  onDragEnd,
+}) => {
   const [dataState, setDataState] = useState(data);
 
-  const onDragEnd = (result: DropResult) => {
+  const wrapperMergedClassNames = twMerge(
+    "p-4 flex flex-row space-x-4",
+    wrapperClassNames
+  );
+
+  const handleOnDragEnd = (result: DropResult) => {
     const { destination, source, draggableId, type } = result;
 
     if (
@@ -17,14 +31,19 @@ const DragAndDrop: FC<DragAndDropProps> = ({ data }) => {
       return;
     }
 
+    if (onDragEnd) {
+      onDragEnd(result);
+    }
+
     if (type === "column") {
-      const newColumnOrder = Array.from(data.columnOrder);
+      const newColumnOrder = Array.from(dataState.columnOrder);
       newColumnOrder.splice(source.index, 1);
 
       newColumnOrder.splice(destination.index, 0, draggableId);
+      console.log({ newColumnOrder });
 
       const newState = {
-        ...data,
+        ...dataState,
         columnOrder: newColumnOrder,
       };
 
@@ -33,8 +52,8 @@ const DragAndDrop: FC<DragAndDropProps> = ({ data }) => {
       return;
     }
 
-    const startColumn = data.columns[source.droppableId];
-    const finishColumn = data.columns[destination.droppableId];
+    const startColumn = dataState.columns[source.droppableId];
+    const finishColumn = dataState.columns[destination.droppableId];
 
     if (startColumn === finishColumn) {
       const newRowIds = Array.from(startColumn.rowIds);
@@ -50,9 +69,9 @@ const DragAndDrop: FC<DragAndDropProps> = ({ data }) => {
       };
 
       const newState = {
-        ...data,
+        ...dataState,
         columns: {
-          ...data.columns,
+          ...dataState.columns,
           [newColumn.id]: newColumn,
         },
       };
@@ -77,35 +96,40 @@ const DragAndDrop: FC<DragAndDropProps> = ({ data }) => {
     };
 
     const newState = {
-      ...data,
+      ...dataState,
       columns: {
-        ...data.columns,
+        ...dataState.columns,
         [newStartColumn.id]: newStartColumn,
         [newFinishColumn.id]: newFinishColumn,
       },
     };
 
     setDataState(newState);
+
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className="w-[500px]"
+            className={wrapperMergedClassNames}
           >
             {dataState.columnOrder.map((columnId, index) => {
               const column = dataState.columns[columnId];
 
               return (
                 <InnerColumnList
+                  onClickRow={onClickRow}
                   key={column.id}
                   column={column}
                   index={index}
                   rowsMap={dataState.rows}
+                  columnClassNames={columnClassNames}
+                  rowClassNames={rowClassNames}
+                  isDragColumnsEnabled={isDragColumnsEnabled}
                 />
               );
             })}

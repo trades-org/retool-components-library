@@ -9,7 +9,9 @@ const InnerColumnList = React.memo(function InnerColumnList({
   columnClassNames,
   rowClassNames,
   isDragColumnsEnabled,
-  onClickRow
+  onClickRow,
+
+  multiSelect
 }: InnerColumnProps) {
   const rows = column.rowIds.map((row) => rowsMap[row]);
   return (
@@ -21,6 +23,8 @@ const InnerColumnList = React.memo(function InnerColumnList({
       rowClassNames={rowClassNames}
       isDragColumnsEnabled={isDragColumnsEnabled}
       onClickRow={onClickRow}
+      
+      multiSelect={multiSelect}
     />
   );
 });

@@ -21,6 +21,8 @@ export interface RowClassNamesType {
     rowWrapperClassNames?: string;
     rowTagsWrapperClassNames?: string;
     rowTagsClassNames?: string;
+    rowWrapperSelectedClassNames?: string;
+    rowWrapperGhostingClassNames?: string;
 }
 export interface DragAndDropStateType {
     columns: {
@@ -30,6 +32,19 @@ export interface DragAndDropStateType {
         [key: string]: RowType;
     };
     columnOrder: string[];
+}
+export interface MultiSelectFunctionType {
+    (rowId: string): void;
+}
+export interface MultiSelectFunctionsType {
+    toggleSelection?: MultiSelectFunctionType;
+    toggleSelectionInGroup?: MultiSelectFunctionType;
+    multiSelectTo?: MultiSelectFunctionType;
+}
+export interface MultiSelectType {
+    selectedRowIds?: string[];
+    draggingRowId?: string;
+    functions?: MultiSelectFunctionsType;
 }
 export default interface DragAndDropProps {
     data: DragAndDropStateType;
@@ -50,6 +65,7 @@ export interface InnerColumnProps {
     rowClassNames?: RowClassNamesType;
     isDragColumnsEnabled?: boolean;
     onClickRow?: (row: RowType) => void;
+    multiSelect?: MultiSelectType;
 }
 export interface ColumnProps extends ColumnClassNamesType {
     column: ColumnType;
@@ -58,14 +74,19 @@ export interface ColumnProps extends ColumnClassNamesType {
     rowClassNames?: RowClassNamesType;
     isDragColumnsEnabled?: boolean;
     onClickRow?: (row: RowType) => void;
+    multiSelect?: MultiSelectType;
 }
 export interface InnerRowProps {
     rows: RowType[];
     rowClassNames?: RowClassNamesType;
     onClickRow?: (row: RowType) => void;
+    multiSelect?: MultiSelectType;
 }
-export interface RowProps extends RowClassNamesType {
+export interface RowProps extends RowClassNamesType, MultiSelectFunctionsType {
     row: RowType;
     index: number;
     onClickRow?: (row: RowType) => void;
+    isSelected: boolean;
+    isGhosting?: boolean;
+    selectionCount?: number;
 }

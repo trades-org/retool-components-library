@@ -36,11 +36,3 @@ CandidatesWithClick.args = {
         rowWrapperClassNames: "bg-gray-100 mb-2",
     }
 }
-
-export const CandidatesMultiSelect = DragAndDropComponent.bind({})
-CandidatesMultiSelect.args = {
-    data: mockData,
-    rowClassNames: {
-        rowWrapperClassNames: "bg-gray-100 mb-2",
-    }
-}

@@ -13,7 +13,9 @@ const Column: FC<ColumnProps> = ({
   columnListClassNames,
   rowClassNames,
   isDragColumnsEnabled,
-  onClickRow
+  onClickRow,
+
+  multiSelect,
 }) => {
   const columnTitleMergedClassNames = twMerge(
     "p-2 font-bold",
@@ -31,7 +33,11 @@ const Column: FC<ColumnProps> = ({
   );
 
   return (
-    <Draggable draggableId={column.id} index={index} isDragDisabled={!isDragColumnsEnabled}>
+    <Draggable
+      draggableId={column.id}
+      index={index}
+      isDragDisabled={!isDragColumnsEnabled}
+    >
       {(provided) => (
         <div
           {...provided.draggableProps}
@@ -46,9 +52,17 @@ const Column: FC<ColumnProps> = ({
           </div>
           <Droppable droppableId={column.id}>
             {(provided, snapshot) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}
-              className={columnListMergedClassNames}>
-                <InnerRows rows={rows} rowClassNames={rowClassNames} onClickRow={onClickRow} />
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className={columnListMergedClassNames}
+              >
+                <InnerRows
+                  rows={rows}
+                  rowClassNames={rowClassNames}
+                  onClickRow={onClickRow}
+                  multiSelect={multiSelect}
+                />
                 {provided.placeholder}
               </div>
             )}

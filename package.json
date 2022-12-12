@@ -1,7 +1,7 @@
 {
   "name": "@trades-org/retool-components-library",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.4",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -41,7 +41,7 @@
     "dist"
   ],
   "main": "./dist/my-lib.umd.js",
-  "module": "./dist/my-lib.js",
+  "module": "./dist/my-lib.umd.js",
   "types": "./dist/components/index.d.ts",
   "exports": {
     ".": {

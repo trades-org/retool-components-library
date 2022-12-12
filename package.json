@@ -1,7 +1,7 @@
 {
   "name": "@trades-org/retool-components-library",
   "private": false,
-  "version": "0.0.4",
+  "version": "0.0.1",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -48,12 +48,5 @@
       "import": "./dist/my-lib.js",
       "require": "./dist/my-lib.umd.js"
     }
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/trades-org/retool-components-library.git"
   }
 }
